@@ -1,25 +1,17 @@
-"use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Profile extends Model {
-    static associate(models) {
-      Profile.associate = (models) => {
-        Profile.belongsTo(models.User, {
-          foreignKey: {
-            allowNull: false,
-          },
-        });
-      };
-    }
-  }
-  Profile.init(
-    {
-      name: DataTypes.STRING,
+  const Profile = sequelize.define("Profile", {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    {
-      sequelize,
-      modelName: "Profile",
-    }
-  );
+  });
+
+  Profile.associate = (models) => {
+    Profile.belongsTo(models.User, {
+      onDelete: 'cascade',
+      foreignKey: { allowNull: false },
+     
+    });
+  };
   return Profile;
 };
